@@ -23,8 +23,9 @@ THE SOFTWARE.
 """
 from functools import partial, reduce
 
-import jax.numpy as jnp
 import numpy as np
+
+import jax.numpy as jnp
 
 from arraycontext.container import NotAnArrayContainerError, serialize_container
 from arraycontext.container.traversal import (
@@ -54,6 +55,9 @@ class EagerJAXFakeNumpyNamespace(BaseFakeNumpyNamespace):
     # NOTE: when adding a function here, also add it to `array_context.rst` docs!
 
     # {{{ array creation routines
+
+    def zeros(self, shape, dtype):
+        return jnp.zeros(shape=shape, dtype=dtype)
 
     def empty_like(self, ary):
         from warnings import warn
@@ -173,7 +177,7 @@ class EagerJAXFakeNumpyNamespace(BaseFakeNumpyNamespace):
             else:
                 return reduce(
                         jnp.logical_and,
-                        [rec_equal(ix, iy) for (_, ix), (_, iy) in iterable],
+                        [rec_equal(x_i, y_i) for (_, x_i), (_, y_i) in iterable],
                         true)
 
         return rec_equal(a, b)

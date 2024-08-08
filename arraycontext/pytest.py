@@ -144,7 +144,6 @@ class _PytestPytatoPyOpenCLArrayContextFactory(PytestPyOpenCLArrayContextFactory
     def actx_class(self):
         from arraycontext import PytatoPyOpenCLArrayContext
         actx_cls = PytatoPyOpenCLArrayContext
-        actx_cls.transform_loopy_program = lambda s, t_unit: t_unit
         return actx_cls
 
     def __call__(self):
@@ -206,7 +205,6 @@ class _PytestPytatoJaxArrayContextFactory(PytestArrayContextFactory):
     def is_available(cls) -> bool:
         try:
             import jax  # noqa: F401
-
             import pytato  # noqa: F401
             return True
         except ImportError:
